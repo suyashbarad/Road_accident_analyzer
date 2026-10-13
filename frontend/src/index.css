@@ -1,0 +1,265 @@
+@import 'leaflet/dist/leaflet.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background:
+    radial-gradient(1200px 700px at 15% -10%, rgba(47, 139, 255, 0.12), transparent 60%),
+    radial-gradient(1000px 600px at 100% 0%, rgba(124, 58, 237, 0.12), transparent 55%),
+    #060913;
+  color: #e6edf7;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- scrollbars ---------- */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(120, 150, 200, 0.35) transparent;
+}
+*::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(120, 150, 200, 0.28);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 175, 230, 0.5);
+  background-clip: content-box;
+}
+
+/* ---------- glass panels ---------- */
+.glass {
+  background: linear-gradient(180deg, rgba(18, 27, 48, 0.82), rgba(10, 15, 30, 0.82));
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.glass-soft {
+  background: rgba(18, 27, 48, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hairline {
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ---------- leaflet overrides ---------- */
+.leaflet-container {
+  background: #060913;
+  font-family: Inter, sans-serif;
+  outline: none;
+}
+.leaflet-control-attribution {
+  background: rgba(6, 9, 19, 0.7) !important;
+  color: #8fa3c0 !important;
+  font-size: 10px !important;
+  backdrop-filter: blur(6px);
+}
+.leaflet-control-attribution a {
+  color: #7cc0ff !important;
+}
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  background: rgba(14, 21, 38, 0.92) !important;
+  color: #cfe0f5 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.leaflet-tooltip.risk-tip {
+  background: rgba(8, 12, 24, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #eaf1fb;
+  border-radius: 10px;
+  padding: 6px 9px;
+  font-size: 12px;
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.8);
+}
+.leaflet-tooltip.risk-tip::before {
+  display: none;
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: rgba(10, 15, 30, 0.96) !important;
+  color: #eaf1fb !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px -18px rgba(0, 0, 0, 0.9) !important;
+}
+.leaflet-popup-content {
+  margin: 12px 14px !important;
+  font-size: 12.5px;
+}
+.leaflet-popup-close-button {
+  color: #9fb2cc !important;
+}
+
+/* glowing selected segment */
+.seg-selected {
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.85));
+}
+
+/* hotspot pulse */
+.pulse-marker {
+  position: relative;
+}
+.pulse-marker::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 2px solid currentColor;
+  animation: pulseRing 1.9s ease-out infinite;
+}
+
+/* ---------- misc ---------- */
+.text-gradient {
+  background: linear-gradient(90deg, #7cc0ff, #a78bfa 60%, #f472b6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+input[type='range'] {
+  accent-color: #2f8bff;
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* small pill button used in the route planner */
+.btn-mini {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 10.5px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.03);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn-mini:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.09);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+.btn-mini:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* range slider (dual handled via two inputs) */
+.range-track {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+}
+.range-track::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 15px;
+  width: 15px;
+  border-radius: 999px;
+  background: #2f8bff;
+  border: 2px solid #0a0f1e;
+  cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(47, 139, 255, 0.18);
+}
+
+/* ---------- dual-thumb range ---------- */
+.dual-range {
+  position: relative;
+  height: 20px;
+}
+.dr-track {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+}
+.dr-fill {
+  position: absolute;
+  top: 8px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2f8bff, #7cc0ff);
+}
+.dual-range input[type='range'] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  margin: 0;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.dual-range input[type='range']:focus {
+  outline: none;
+}
+.dual-range input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  height: 14px;
+  width: 14px;
+  border-radius: 999px;
+  background: #eaf2ff;
+  border: 2px solid #2f8bff;
+  cursor: pointer;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+.dual-range input[type='range']::-moz-range-thumb {
+  pointer-events: auto;
+  height: 14px;
+  width: 14px;
+  border-radius: 999px;
+  background: #eaf2ff;
+  border: 2px solid #2f8bff;
+  cursor: pointer;
+}
+

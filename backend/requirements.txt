@@ -1,0 +1,12 @@
+# Core ML / data stack
+numpy==2.5.3
+pandas==3.0.5
+scipy==1.18.1
+scikit-learn==1.9.0
+shap==0.52.0
+joblib==1.6.0
+
+# Live-inference API (optional but recommended)
+fastapi==0.141.1
+uvicorn==0.52.4
+pydantic==2.13.5
